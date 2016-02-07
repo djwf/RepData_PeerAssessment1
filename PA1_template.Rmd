@@ -125,7 +125,61 @@ So, the interval with the greatest mean number of steps is interval `835`, and i
 
 ## Imputing missing values
 
+As the missing values may introduce bias into some of the calculations or summaries, let's examine how many values are missing.
 
+```{r}
+sum(!complete.cases(activity))
+```
+
+Out of 17568 observations, there are 2304 that have missing data.  Which days have missing data?
+
+```{r}
+dates.with.missing = unique(activity[!complete.cases(activity), ]$date)
+dates.with.missing
+```
+
+Eight of the dates have missing values.  How many of the dates with missing values have any data?
+
+```{r}
+subset(activity, complete.cases(activity) & date %in% dates.with.missing)
+```
+
+Zero.  As none of the dates with missing values have any values at all, the missing value for a given interval will be filled by using the average of that interval across all the dates.
+
+```{r}
+activity.imputed = activity
+na.idx = which(is.na(activity$steps))
+match.idx = match(activity[na.idx, ]$interval, mean.steps.per.interval$interval)
+activity.imputed[na.idx, ]$steps = mean.steps.per.interval[match.idx, ]$steps
+str(activity.imputed)
+```
+
+Sum the steps taken on each distinct date after imputing the data.  Note that the intervals that have no recorded steps have been replaced with the mean for that interval across dates, so there will be 61 distinct dates instead of 53.
+
+```{r}
+daily.imputed = aggregate(steps ~ date, activity.imputed, sum, na.rm=T)
+```
+
+Display the distribution of the number of steps taken per day (after imputation).  The number of bins and y limits are set the same as the previous historgram to enable easier comparison.
+
+```{r}
+histogram(daily.imputed, bins=nclass.FD(daily$steps),
+          title='Steps taken per day after imputation')
+```
+
+In calculating the mean and median the `daily.imputed` variable is used, which contains no NA values at all.
+
+```{r}
+mean.imputed.steps.per.day = mean(daily.imputed$steps)
+mean.imputed.steps.per.day
+
+median.imputed.steps.per.day = median(daily.imputed$steps)
+median.imputed.steps.per.day
+```
+
+Did imputing the data make any difference in the calculated mean and median?  The value of `mean.steps.per.day` is `r if (!isTRUE(all.equal(mean.imputed.steps.per.day, mean.steps.per.day))) {'**not**'}` equal to the value of `mean.imputed.steps.per.day`.  The value of `median.steps.per.day` is `r if (!isTRUE(all.equal(median.imputed.steps.per.day, median.steps.per.day))) {'**not**'}` equal to the value of `median.imputed.steps.per.day`.  These results make sense, as replacing missing values with the mean number of steps per interval across dates will not change the mean, but it *will* change the number of values that take the value of the mean, and thus the median.
+
+This is seen clearly on the histograms as the distribution itself does not shift, only the center bin (with the mean values) grows significantly.
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
