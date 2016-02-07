@@ -1,6 +1,6 @@
 # Reproducible Research: Peer Assessment 1
 David J. Weller-Fahy  
-February 05, 2016  
+February 07, 2016  
 
 Clear the environment for those times the chunks are run out of knitr.  Comment the following line out if you do not want any existing environment variables removed.
 
@@ -21,7 +21,7 @@ Make sure the figures are placed in the correct directory.
 
 ```r
 library(knitr)
-knitr::opts_chunk$set(fig.path='figures/') # http://yihui.name/knitr/demo/minimal/
+knitr::opts_chunk$set(fig.path='figure/') # http://yihui.name/knitr/demo/minimal/
 ```
 
 ## Loading and preprocessing the data
@@ -97,7 +97,7 @@ histogram = function(df, var='steps', bins=nclass.FD(df[[var]]), title='Steps ta
 histogram(daily)
 ```
 
-![](figures/hist_mean_steps_per_day-1.png)\
+![](figure/hist_mean_steps_per_day-1.png)\
 
 In calculating the mean and median the `daily` variable is used, which does not contain any of the `NA` values present in the data.
 
@@ -148,7 +148,7 @@ time.series = function(df, var1='interval', var2='steps',
 time.series(mean.steps.per.interval)
 ```
 
-![](figures/time_series_mean_steps_per_interval_across_days-1.png)\
+![](figure/time_series_mean_steps_per_interval_across_days-1.png)\
 
 It looks like the interval with the greatest mean number of steps is close to 800, but let's find out exactly.
 
@@ -243,7 +243,7 @@ histogram(daily.imputed, bins=nclass.FD(daily$steps),
           title='Steps taken per day after imputation')
 ```
 
-![](figures/hist_mean_steps_per_day_after_imputation-1.png)\
+![](figure/hist_mean_steps_per_day_after_imputation-1.png)\
 
 In calculating the mean and median the `daily.imputed` variable is used, which contains no NA values at all.
 
@@ -303,7 +303,7 @@ g = time.series(mean.imputed.steps.per.interval.date.type,
 g
 ```
 
-![](figures/time_series_mean_steps_per_interval_across_date_type-1.png)\
+![](figure/time_series_mean_steps_per_interval_across_date_type-1.png)\
 
 Clean up after ourselves.
 
