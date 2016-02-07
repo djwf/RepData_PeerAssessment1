@@ -88,7 +88,40 @@ median.steps.per.day
 
 ## What is the average daily activity pattern?
 
+Calculate the mean number of steps in each interval across all dates.
 
+```{r}
+mean.steps.per.interval = aggregate(steps ~ interval, activity, mean, na.rm=T)
+```
+
+Display the mean number of steps in each interval as a time series plot.
+
+```{r}
+
+time.series = function(df, var1='interval', var2='steps',
+                       title=paste('Mean steps taken per interval',
+                                   '(across all measured days)'),
+                       x.label='Interval', y.label='Number of steps') {
+  g = ggplot(df, aes_string(var1, var2)) +
+    theme_bw() +
+    geom_line() +
+    labs(title=title) + 
+    labs(x=x.label, y=y.label)
+  g
+}
+
+time.series(mean.steps.per.interval)
+```
+
+It looks like the interval with the greatest mean number of steps is close to 800, but let's find out exactly.
+
+```{r}
+with(mean.steps.per.interval, interval[which.max(steps)])
+
+with(mean.steps.per.interval, steps[which.max(steps)])
+```
+
+So, the interval with the greatest mean number of steps is interval `835`, and its value is `206.1698` steps.
 
 ## Imputing missing values
 
