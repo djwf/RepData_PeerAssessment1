@@ -64,7 +64,7 @@ Display the distribution of the number of steps per day.  When considering how t
 
 [1]: http://www.dummies.com/how-to/content/how-to-clearly-label-the-axes-on-a-statistical-his.html
 
-```{r}
+```{r hist_mean_steps_per_day}
 library(ggplot2)
 library(scales)
 
@@ -103,7 +103,7 @@ mean.steps.per.interval = aggregate(steps ~ interval, activity, mean, na.rm=T)
 
 Display the mean number of steps in each interval as a time series plot.
 
-```{r}
+```{r time_series_mean_steps_per_interval_across_days}
 
 time.series = function(df, var1='interval', var2='steps',
                        title=paste('Mean steps taken per interval',
@@ -169,7 +169,7 @@ daily.imputed = aggregate(steps ~ date, activity.imputed, sum, na.rm=T)
 
 Display the distribution of the number of steps taken per day (after imputation).  The number of bins and y limits are set the same as the previous historgram to enable easier comparison.
 
-```{r}
+```{r hist_mean_steps_per_day_after_imputation}
 histogram(daily.imputed, bins=nclass.FD(daily$steps),
           title='Steps taken per day after imputation')
 ```
@@ -207,7 +207,7 @@ mean.imputed.steps.per.interval.date.type =
 
 Display the mean number of steps after imputation in each interval across each date type as a time series plot.
 
-```{r}
+```{r time_series_mean_steps_per_interval_across_date_type}
 date.type.labeller = function(x) {
   x$date.type = c('Across all weekdays', 'Across all weekend days')
   x
