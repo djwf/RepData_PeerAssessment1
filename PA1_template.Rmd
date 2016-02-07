@@ -1,10 +1,23 @@
 ---
 title: "Reproducible Research: Peer Assessment 1"
+author: "David J. Weller-Fahy"
+date: "February 05, 2016"
 output: 
   html_document:
     keep_md: true
 ---
 
+Clear the environment for those times the chunks are run out of knitr.  Comment the following line out if you do not want any existing environment variables removed.
+
+```{r}
+rm(list=ls())
+```
+
+If you want to keep the unzipped data file after the run, then set `KEEP` to `T`.
+
+```{r}
+KEEP = F
+```
 
 ## Loading and preprocessing the data
 
@@ -23,3 +36,11 @@ output:
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
+
+Clean up after ourselves.
+
+```{r}
+if (!KEEP) {
+  unlink(cfile)
+}
+```
