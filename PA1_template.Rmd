@@ -21,7 +21,29 @@ KEEP = F
 
 ## Loading and preprocessing the data
 
+Set the zip and data file names, and unzip the data file (if not already done).
 
+```{r}
+zfile = 'activity.zip'
+cfile = 'activity.csv'
+if (file.exists(zfile) & !file.exists(cfile))
+  unzip(zfile, exdir = getwd())
+```
+
+Read in the data file and look at its structure.
+
+```{r}
+activity = read.csv(cfile)
+str(activity)
+```
+
+The structure inspires me to perform a trick.
+
+```{r}
+cat(activity$steps[1:8], intToUtf8(c(66, 65, 84, 77, 65, 78, 33)))
+```
+
+Robin would be so proud.  Regardless, onward with the questions.
 
 ## What is mean total number of steps taken per day?
 
