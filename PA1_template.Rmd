@@ -183,6 +183,34 @@ This is seen clearly on the histograms as the distribution itself does not shift
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
+To answer this question a factor variable is needed to differentiate between the weekdays and weekend days.
+
+```{r}
+activity.imputed$date.type = 
+  as.factor(ifelse(strftime(activity.imputed$date, '%u') < 6,
+         'weekday', 'weekend'))
+```
+
+Calculate the mean number of steps per interval across each date type (`weekday` and `weekend`).
+
+```{r}
+mean.imputed.steps.per.interval.date.type =
+  aggregate(steps ~ interval + date.type, activity.imputed, mean, na.rm=T)
+```
+
+Display the mean number of steps after imputation in each interval across each date type as a time series plot.  
+
+```{r}
+date.type.labeller = function(x) {
+  x$date.type = c('Across all weekdays', 'Across all weekend days')
+  x
+}
+g = time.series(mean.imputed.steps.per.interval.date.type,
+                title='Mean steps taken per interval') +
+  facet_wrap(~date.type, dir='v', labeller=date.type.labeller)
+g
+```
+
 Clean up after ourselves.
 
 ```{r}
