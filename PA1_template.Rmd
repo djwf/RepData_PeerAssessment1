@@ -19,6 +19,13 @@ If you want to keep the unzipped data file after the run, then set `KEEP` to `T`
 KEEP = F
 ```
 
+Make sure the figures are placed in the correct directory.
+
+```{r}
+library(knitr)
+knitr::opts_chunk$set(fig.path='figures/') # http://yihui.name/knitr/demo/minimal/
+```
+
 ## Loading and preprocessing the data
 
 Set the zip and data file names, and unzip the data file (if not already done).
