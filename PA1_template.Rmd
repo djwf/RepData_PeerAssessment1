@@ -101,7 +101,7 @@ Calculate the mean number of steps in each interval across all dates.
 mean.steps.per.interval = aggregate(steps ~ interval, activity, mean, na.rm=T)
 ```
 
-Display the mean number of steps in each interval as a time series plot.  Remember to convert the intervals to actual times before plotting the time series ß([as noted here][noted]).
+Display the mean number of steps in each interval as a time series plot.  Remember to convert the intervals to actual times before plotting the time series ([as noted here][noted]).
 
 [noted]: https://www.coursera.org/learn/reproducible-research/discussions/cY3y58mbEeWx-RJXp8WlWQ
 
