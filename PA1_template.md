@@ -97,7 +97,7 @@ histogram = function(df, var='steps', bins=nclass.FD(df[[var]]), title='Steps ta
 histogram(daily)
 ```
 
-![](figure/hist_mean_steps_per_day-1.png)\
+![](figure/hist_mean_steps_per_day-1.png)
 
 In calculating the mean and median the `daily` variable is used, which does not contain any of the `NA` values present in the data.
 
@@ -129,7 +129,9 @@ Calculate the mean number of steps in each interval across all dates.
 mean.steps.per.interval = aggregate(steps ~ interval, activity, mean, na.rm=T)
 ```
 
-Display the mean number of steps in each interval as a time series plot.
+Display the mean number of steps in each interval as a time series plot.  Remember to convert the intervals to actual times before plotting the time series ß([as noted here][noted]).
+
+[noted]: https://www.coursera.org/learn/reproducible-research/discussions/cY3y58mbEeWx-RJXp8WlWQ
 
 
 ```r
@@ -137,10 +139,15 @@ time.series = function(df, var1='interval', var2='steps',
                        title=paste('Mean steps taken per interval',
                                    '(across all measured days)'),
                        x.label='Interval', y.label='Number of steps') {
+
+
+  df[[var1]] = strptime(sprintf('%04d', df[[var1]]), '%H%M')
+
   g = ggplot(df, aes_string(var1, var2)) +
     theme_bw() +
     geom_line() +
     labs(title=title) +
+    scale_x_datetime(date_labels='%H:%M') +
     labs(x=x.label, y=y.label)
   g
 }
@@ -148,7 +155,7 @@ time.series = function(df, var1='interval', var2='steps',
 time.series(mean.steps.per.interval)
 ```
 
-![](figure/time_series_mean_steps_per_interval_across_days-1.png)\
+![](figure/time_series_mean_steps_per_interval_across_days-1.png)
 
 It looks like the interval with the greatest mean number of steps is close to 800, but let's find out exactly.
 
@@ -243,7 +250,7 @@ histogram(daily.imputed, bins=nclass.FD(daily$steps),
           title='Steps taken per day after imputation')
 ```
 
-![](figure/hist_mean_steps_per_day_after_imputation-1.png)\
+![](figure/hist_mean_steps_per_day_after_imputation-1.png)
 
 In calculating the mean and median the `daily.imputed` variable is used, which contains no NA values at all.
 
@@ -303,7 +310,7 @@ g = time.series(mean.imputed.steps.per.interval.date.type,
 g
 ```
 
-![](figure/time_series_mean_steps_per_interval_across_date_type-1.png)\
+![](figure/time_series_mean_steps_per_interval_across_date_type-1.png)
 
 Clean up after ourselves.
 
